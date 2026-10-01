@@ -15,13 +15,13 @@
       <Label text="ACCOUNTING APP" BorderPane.alignment="CENTER" />
    </top>
    <center>
-      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="journalTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="103.0" text="DATE" />
-          <TableColumn prefWidth="222.0" text="ACCOUNT TITLE" />
-            <TableColumn prefWidth="75.0" text="DEBIT" />
-            <TableColumn minWidth="4.0" prefWidth="75.0" text="CREDIT" />
-            <TableColumn prefWidth="169.0" text="NOTE" />
+          <TableColumn fx:id="dateColumn" prefWidth="103.0" text="DATE" />
+          <TableColumn fx:id="accountColumn" prefWidth="222.0" text="ACCOUNT TITLE" />
+            <TableColumn fx:id="debitColumn" prefWidth="75.0" text="DEBIT" />
+            <TableColumn fx:id="creditColumn" minWidth="4.0" prefWidth="75.0" text="CREDIT" />
+            <TableColumn fx:id="noteColumn" prefWidth="169.0" text="NOTE" />
         </columns>
       </TableView>
    </center>
@@ -39,7 +39,7 @@
             <ComboBox fx:id="actTitleCB" prefHeight="25.0" prefWidth="364.0" promptText="Transaction Type" />
             <Label fx:id="paidbylabel" text="PAID BY" visible="false" />
             <ComboBox fx:id="paidby" prefHeight="25.0" prefWidth="365.0" visible="false" />
-            <Button fx:id="back" mnemonicParsing="false" text="BACK" visible="false" />
+            <Button fx:id="back" mnemonicParsing="false" onAction="#backTransaction" text="BACK" visible="false" />
             <Label text="AMOUNT" />
             <TextField fx:id="amountTextField" />
             <Label text="NOTE" />

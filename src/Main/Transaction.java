@@ -11,8 +11,9 @@ public class Transaction {
 	private double amount;
 	private String note;
 	private String paymentMethod;
+	private String transactionType;
 	
-	public Transaction(String date, String accountTitle, String amount, String note, String paymentMethod, boolean paymentRequired) {
+	public Transaction(String date, String transactionType, String accountTitle, String amount, String note, String paymentMethod, boolean paymentRequired) {
 		
 		if (!isValidDate(date)) {
 			throw new IllegalArgumentException("ILLEGAL DATE FORMAT");
@@ -28,6 +29,7 @@ public class Transaction {
 	    }
 		
 		this.date = date;
+		this.transactionType = transactionType;
 		this.accountTitle = accountTitle;
 		this.amount = Double.parseDouble(amount);
 		this.note = note;
@@ -88,6 +90,10 @@ public class Transaction {
 	
 	public String getAccountTitle() {
 		return accountTitle;
+	}
+	
+	public String getTransactionType() {
+		return transactionType;
 	}
 	
 	public double getAmount() {
