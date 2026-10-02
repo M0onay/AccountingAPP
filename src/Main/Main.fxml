@@ -38,7 +38,7 @@
             <Label text="ACCOUNT TITLE" />
             <ComboBox fx:id="actTitleCB" prefHeight="25.0" prefWidth="364.0" promptText="Transaction Type" />
             <Label fx:id="paidbylabel" text="PAID BY" visible="false" />
-            <ComboBox fx:id="paidby" prefHeight="25.0" prefWidth="365.0" visible="false" />
+            <ComboBox fx:id="paidby" prefHeight="25.0" prefWidth="365.0" promptText="PAYMENT METHOD" visible="false" />
             <Button fx:id="back" mnemonicParsing="false" onAction="#backTransaction" text="BACK" visible="false" />
             <Label text="AMOUNT" />
             <TextField fx:id="amountTextField" />
@@ -46,9 +46,11 @@
             <TextField fx:id="noteTextField" promptText="OPTIONAL" />
             <VBox alignment="TOP_CENTER" prefHeight="369.0" prefWidth="355.0">
                <children>
-                  <Button fx:id="AddButton" mnemonicParsing="false" onAction="#AddTransaction" text="ADD TRANSACTION" />
-                  <Button fx:id="EditButton" mnemonicParsing="false" onAction="#EditTransaction" text="EDIT TRANSACTION" />
-                  <Button fx:id="GenerateButton" mnemonicParsing="false" onAction="#GenerateReport" text="GENERATE REPORT" />
+                  <Button fx:id="AddButton" mnemonicParsing="false" onAction="#AddTransaction" prefHeight="25.0" prefWidth="127.0" text="ADD TRANSACTION" />
+                  <Button fx:id="EditButton" mnemonicParsing="false" onAction="#EditTransaction" prefWidth="127.0" text="EDIT TRANSACTION" />
+                  <Button fx:id="ledgerButton" mnemonicParsing="false" onAction="#openLedger" prefHeight="25.0" prefWidth="127.0" text="LEDGER" />
+                  <Button fx:id="TBButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="127.0" text="TRIAL BALANCE" />
+                  <Button fx:id="GenerateButton" mnemonicParsing="false" onAction="#GenerateReport" prefWidth="127.0" text="GENERATE REPORT" />
                </children>
             </VBox>
          </children>

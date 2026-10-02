@@ -1,5 +1,6 @@
 package Main;
 
+import java.io.IOException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 
 
 public class Controller {
@@ -51,6 +59,8 @@ public class Controller {
 	private TableColumn<TableRow, String> noteColumn;
 	private String transactionType;
 	private ObservableList<TableRow> TableRow = FXCollections.observableArrayList();
+	private Journal journal = AccountingData.getJournal();
+	private Ledger ledger = AccountingData.getLedger();
 
 	public void AddTransaction(ActionEvent event) {
 
@@ -69,43 +79,20 @@ public class Controller {
 
 	    try {
 
-	    	Transaction transaction = new Transaction(
-	    		    date,
-	    		    transactionType,
-	    		    accountTitle,
-	    		    amount,
-	    		    note,
-	    		    Pmethod,
-	    		    paymentRequired
-	    		);
-	        
-	        System.out.println("Transaction Type: " + transaction.getTransactionType());
-	        System.out.println("Account Title: " + transaction.getAccountTitle());
-	        System.out.println("Payment Method: " + transaction.getPaymentMethod());
-
-//	        System.out.println("New Transaction!");
-//	        System.out.println("Date: " + transaction.getdate());
-//	        System.out.println("Account Title: " + transaction.getAccountTitle());
-//	        System.out.println("Amount: " + transaction.getAmount());
-//	        System.out.println("Payment Method: " + transaction.getPaymentMethod());
-//	        System.out.println("Note: " + transaction.getNote());
+	    	Transaction transaction = new Transaction(date, transactionType, accountTitle, amount, note, Pmethod,paymentRequired);
 	        
 	        JournalEntry entry = Journalizing.journalize(transaction);
+	        journal.addEntry(entry);
+	        ledger.post(entry);
 	        
 	        TableRow.add(new TableRow(entry.getDate(), entry.getDebitAccount(), entry.getAmount(), 0, entry.getNote()));
 	        
 	        TableRow.add(new TableRow("", entry.getCreditAccount(), 0, entry.getAmount(),""));
-
-	        System.out.println("DATE: " + entry.getDate());
-	        System.out.println("DEBIT: " + entry.getDebitAccount());
-	        System.out.println("CREDIT: " + entry.getCreditAccount());
-	        System.out.println("AMOUNT: " + entry.getAmount());
-	        System.out.println("NOTE: " + entry.getNote());
-
+	        
+	        journalTable.refresh();
 	        resetTransaction();
 
 	    } catch(IllegalArgumentException ex) {
-
 	        System.out.println(ex.getMessage());
 	    }
 	}
@@ -115,6 +102,7 @@ public class Controller {
 	}
 	
 	public void GenerateReport(ActionEvent event) {
+//		printLedger();
 		System.out.println("TANGINA NAGANA");
 	}
 	
@@ -125,6 +113,12 @@ public class Controller {
 		
 		back.setVisible(false);
 		back.setManaged(false);
+		
+		paidby.setVisible(false);
+		paidby.setManaged(false);
+		paidbylabel.setVisible(false);
+		paidbylabel.setManaged(false);
+		
 		
 		actTitleCB.setOnAction(e -> {
 			String selected = actTitleCB.getValue();
@@ -157,8 +151,10 @@ public class Controller {
 					actTitleCB.getItems().addAll(ActOpt.getExpenseOptions());
 					
 					paidbylabel.setVisible(true);
+					paidbylabel.setManaged(true);
 					paidby.setVisible(true);
-					
+					paidby.setManaged(true);
+					 
 					paidby.getItems().clear();
 					paidby.getItems().addAll(ActOpt.getPaymentOptions());
 				}
@@ -171,8 +167,10 @@ public class Controller {
 					actTitleCB.getItems().addAll(ActOpt.getPurchaseOptions());
 					
 					paidbylabel.setVisible(true);
+					paidbylabel.setManaged(true);
 					paidby.setVisible(true);
-					
+					paidby.setManaged(true);
+					 
 					paidby.getItems().clear();
 					paidby.getItems().addAll(ActOpt.getPaymentOptions());
 				}
@@ -199,8 +197,6 @@ public class Controller {
 			});
 		});
 		
-		journalTable.setItems(TableRow);
-		
 		dateColumn.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getDate()));
 		
 		accountColumn.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getAccountTitle()));
@@ -210,6 +206,32 @@ public class Controller {
 		creditColumn.setCellValueFactory(cell -> new javafx.beans.property.SimpleDoubleProperty(cell.getValue().getCredit()));
 		
 		noteColumn.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getNote()));
+		
+		
+		for(JournalEntry entry : journal.genEntries()) {
+			
+			TableRow.add(new TableRow(entry.getDate(), entry.getDebitAccount(), entry.getAmount(), 0, entry.getNote()));
+			TableRow.add(new TableRow("", entry.getCreditAccount(), 0, entry.getAmount(), ""));
+			
+		}
+
+		journalTable.setItems(TableRow);
+		
+	}
+	
+	@FXML
+	public void openLedger(ActionEvent event) throws IOException{
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("ledger.fxml"));
+		
+		Parent root = loader.load();
+		
+		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+		
+		Scene scene = new Scene(root);
+		
+		stage.setScene(scene);
+		stage.show();
 		
 	}
 	
@@ -252,5 +274,41 @@ public class Controller {
 		paidbylabel.setVisible(false);
 		
 	}
+	
+//	private void printLedger() {
+//
+//	    System.out.println();
+//	    System.out.println("========================================");
+//	    System.out.println("                 LEDGER");
+//	    System.out.println("========================================");
+//
+//	    for (String account : ledger.getAccounts().keySet()) {
+//
+//	        System.out.println();
+//	        System.out.println("ACCOUNT: " + account);
+//	        System.out.println("----------------------------------------");
+//
+//	        System.out.printf(
+//	                "%-15s %-15s %-15s%n",
+//	                "DATE",
+//	                "DEBIT",
+//	                "CREDIT"
+//	        );
+//
+//	        System.out.println("----------------------------------------");
+//
+//	        for (LedgerEntry entry : ledger.getAccounts().get(account)) {
+//
+//	            System.out.printf(
+//	                    "%-15s %-15.2f %-15.2f%n",
+//	                    entry.getDate(),
+//	                    entry.getDebit(),
+//	                    entry.getCredit()
+//	            );
+//	        }
+//
+//	        System.out.println("----------------------------------------");
+//	    }
+//	}
 	
 }
