@@ -47,9 +47,8 @@
             <VBox alignment="TOP_CENTER" prefHeight="369.0" prefWidth="355.0">
                <children>
                   <Button fx:id="AddButton" mnemonicParsing="false" onAction="#AddTransaction" prefHeight="25.0" prefWidth="127.0" text="ADD TRANSACTION" />
-                  <Button fx:id="EditButton" mnemonicParsing="false" onAction="#EditTransaction" prefWidth="127.0" text="EDIT TRANSACTION" />
                   <Button fx:id="ledgerButton" mnemonicParsing="false" onAction="#openLedger" prefHeight="25.0" prefWidth="127.0" text="LEDGER" />
-                  <Button fx:id="TBButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="127.0" text="TRIAL BALANCE" />
+                  <Button fx:id="TBButton" mnemonicParsing="false" onAction="#openTrialBalance" prefHeight="25.0" prefWidth="127.0" text="TRIAL BALANCE" />
                   <Button fx:id="GenerateButton" mnemonicParsing="false" onAction="#GenerateReport" prefWidth="127.0" text="GENERATE REPORT" />
                </children>
             </VBox>

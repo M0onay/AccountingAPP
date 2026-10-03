@@ -28,8 +28,6 @@ public class Controller {
 	@FXML
 	private Button AddButton;
 	@FXML
-	private Button EditButton;
-	@FXML
 	private Button GenerateButton;
 	@FXML
 	private Button back;
@@ -61,6 +59,7 @@ public class Controller {
 	private ObservableList<TableRow> TableRow = FXCollections.observableArrayList();
 	private Journal journal = AccountingData.getJournal();
 	private Ledger ledger = AccountingData.getLedger();
+	private JournalEntry selectedEntry = null;
 
 	public void AddTransaction(ActionEvent event) {
 
@@ -97,13 +96,13 @@ public class Controller {
 	    }
 	}
 	
-	public void EditTransaction(ActionEvent event) {
+	public void DeleteTransaction(ActionEvent event) {
 		System.out.println("WOW WORKING");
 	}
 	
 	public void GenerateReport(ActionEvent event) {
-//		printLedger();
-		System.out.println("TANGINA NAGANA");
+		PDF_maker_itext pdf =new PDF_maker_itext();
+		pdf.generate(journal.genEntries(),ledger);
 	}
 	
 	@FXML
@@ -235,6 +234,22 @@ public class Controller {
 		
 	}
 	
+	@FXML
+	public void openTrialBalance(ActionEvent event) throws IOException{
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("trialbalance.fxml"));
+		
+		Parent root = loader.load();
+		
+		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+		
+		Scene scene = new Scene(root);
+		
+		stage.setScene(scene);
+		stage.show();
+		
+	}
+	
 	public void backTransaction(ActionEvent event) {
 		
 		System.out.println("BACK BUTTON CLICKED!!!");
@@ -275,40 +290,6 @@ public class Controller {
 		
 	}
 	
-//	private void printLedger() {
-//
-//	    System.out.println();
-//	    System.out.println("========================================");
-//	    System.out.println("                 LEDGER");
-//	    System.out.println("========================================");
-//
-//	    for (String account : ledger.getAccounts().keySet()) {
-//
-//	        System.out.println();
-//	        System.out.println("ACCOUNT: " + account);
-//	        System.out.println("----------------------------------------");
-//
-//	        System.out.printf(
-//	                "%-15s %-15s %-15s%n",
-//	                "DATE",
-//	                "DEBIT",
-//	                "CREDIT"
-//	        );
-//
-//	        System.out.println("----------------------------------------");
-//
-//	        for (LedgerEntry entry : ledger.getAccounts().get(account)) {
-//
-//	            System.out.printf(
-//	                    "%-15s %-15.2f %-15.2f%n",
-//	                    entry.getDate(),
-//	                    entry.getDebit(),
-//	                    entry.getCredit()
-//	            );
-//	        }
-//
-//	        System.out.println("----------------------------------------");
-//	    }
-//	}
+	
 	
 }

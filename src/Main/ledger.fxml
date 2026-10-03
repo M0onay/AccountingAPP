@@ -41,10 +41,9 @@
             <VBox alignment="TOP_CENTER" prefHeight="257.0" prefWidth="355.0">
                <children>
                   <Button fx:id="AddButton" mnemonicParsing="false" onAction="#AddTransaction" prefWidth="127.0" text="ADD TRANSACTION" />
-                  <Button fx:id="EditButton" mnemonicParsing="false" prefWidth="127.0" text="EDIT TRANSACTION" />
                   <Button fx:id="journalButton" mnemonicParsing="false" onAction="#openJournal" prefWidth="127.0" text="JOURNAL" />
-                  <Button mnemonicParsing="false" prefWidth="127.0" text="TRIAL BALANCE" />
-                  <Button fx:id="GenerateButton" mnemonicParsing="false" prefWidth="127.0" text="GENERATE REPORT" />
+                  <Button fx:id="TBButton" mnemonicParsing="false" onAction="#openTrialBalance" prefWidth="127.0" text="TRIAL BALANCE" />
+                  <Button fx:id="GenerateButton" mnemonicParsing="false" onAction="#GenerateReport" prefWidth="127.0" text="GENERATE REPORT" />
                </children>
             </VBox>
          </children>

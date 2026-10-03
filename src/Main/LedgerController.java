@@ -25,8 +25,6 @@ public class LedgerController {
 	@FXML
 	private Button AddButton;
 	@FXML
-	private Button EditButton;
-	@FXML
 	private Button GenerateButton;
 	@FXML
 	private Button journalButton;
@@ -90,12 +88,13 @@ public class LedgerController {
 		
 	}
 	
-	 public void EditTransaction(ActionEvent event) {
+	 public void DeleteTransaction(ActionEvent event) {
 	        System.out.println("EDIT TRANSACTION FROM LEDGER");
 	 }
 	 
 	 public void GenerateReport(ActionEvent event) {
-	        System.out.println("GENERATE REPORT FROM LEDGER");
+		 PDF_maker_itext pdf =new PDF_maker_itext();
+		 pdf.generate(journal.genEntries(),ledger);
 	 }
 	 
 	 @FXML
@@ -206,7 +205,23 @@ public class LedgerController {
 			 stage.setScene(scene);
 			 stage.show();
 			 
-		 }
+	 }
+	 
+	 @FXML
+		public void openTrialBalance(ActionEvent event) throws IOException{
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("trialbalance.fxml"));
+			
+			Parent root = loader.load();
+			
+			Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+			
+			Scene scene = new Scene(root);
+			
+			stage.setScene(scene);
+			stage.show();
+			
+		}
 	 
 	 private void displayLedger() {
 		 
