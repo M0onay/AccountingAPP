@@ -10,6 +10,9 @@ public class Journal {
 	public void addEntry(JournalEntry entry) {
 		entries.add(entry);
 	}
+	public void removeEntry(JournalEntry entry) {
+		entries.remove(entry);
+	}
 	public List<JournalEntry> genEntries(){
 		return entries;
 	}

@@ -30,4 +30,8 @@ public class Ledger {
 		return accounts;
 	}
 	
+	public void clear() {
+		accounts.clear();
+	}
+	
 }

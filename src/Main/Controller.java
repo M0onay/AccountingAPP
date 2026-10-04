@@ -81,12 +81,26 @@ public class Controller {
 	    	Transaction transaction = new Transaction(date, transactionType, accountTitle, amount, note, Pmethod,paymentRequired);
 	        
 	        JournalEntry entry = Journalizing.journalize(transaction);
-	        journal.addEntry(entry);
-	        ledger.post(entry);
 	        
-	        TableRow.add(new TableRow(entry.getDate(), entry.getDebitAccount(), entry.getAmount(), 0, entry.getNote()));
+	        if(selectedEntry == null) {
+	        	journal.addEntry(entry);
+	        }else {
+	        	journal.removeEntry(selectedEntry);
+	        	journal.addEntry(entry);
+	        	selectedEntry = null;
+	        }
 	        
-	        TableRow.add(new TableRow("", entry.getCreditAccount(), 0, entry.getAmount(),""));
+	        for(JournalEntry journalentry : journal.genEntries()) {
+	        	ledger.post(entry);
+	        }
+	        
+	        TableRow.clear();
+	        
+	        for(JournalEntry journalentry : journal.genEntries()) {
+	        	TableRow.add(new TableRow(entry.getDate(), entry.getDebitAccount(), entry.getAmount(), 0, entry.getNote()));
+		        
+		        TableRow.add(new TableRow("", entry.getCreditAccount(), 0, entry.getAmount(),""));
+	        }
 	        
 	        journalTable.refresh();
 	        resetTransaction();
@@ -216,6 +230,194 @@ public class Controller {
 
 		journalTable.setItems(TableRow);
 		
+		journalTable.setOnMouseClicked(event -> {
+
+		    if(event.getClickCount() == 1) {
+		        TableRow selectedRow = journalTable.getSelectionModel().getSelectedItem();
+		        if(selectedRow == null) {
+		            return;
+		        }
+
+		        int selectedIndex = journalTable.getSelectionModel().getSelectedIndex();
+
+		        if(selectedIndex % 2 != 0) {
+		            return;
+		        }
+
+		        int journalIndex = selectedIndex / 2;
+
+		        if(journalIndex >= journal.genEntries().size()) {
+		            return;
+		        }
+
+		        selectedEntry = journal.genEntries().get(journalIndex);
+
+		        dateTextField.setText(selectedEntry.getDate());
+		        amountTextField.setText(String.valueOf(selectedEntry.getAmount()));
+		        noteTextField.setText(selectedEntry.getNote());
+
+		        loadSelectedTransaction(selectedEntry);
+
+		    }
+
+		});
+		
+	}
+	
+	private void loadSelectedTransaction(JournalEntry entry) {
+		
+		String debit = entry.getDebitAccount();
+		String credit = entry.getCreditAccount();
+		
+		if ("Capital".equals(credit)) {
+	        transactionType = "Investment";
+	        
+	        actTitleCB.getItems().clear();
+	        actTitleCB.getItems().addAll(ActOpt.getInvestmentOptions());
+	        actTitleCB.setValue(debit);
+
+	        back.setVisible(true);
+	        back.setManaged(true);
+
+	        return;
+	    }
+		
+		if ("Sales".equals(credit)) {
+
+	        transactionType = "Revenue/Sales";
+
+	        actTitleCB.getItems().clear();
+	        actTitleCB.getItems().addAll(ActOpt.getRevenueOptions());
+
+	        if ("Cash".equals(debit)) {
+	            actTitleCB.setValue("Cash Sale");
+	        } else if ("Accounts Receivable".equals(debit)) {
+	        	actTitleCB.setValue("Sale on Account");
+	        }
+
+	        back.setVisible(true);
+	        back.setManaged(true);
+
+	        return;
+	    }
+		
+		if ("Cash".equals(credit) || "Accounts Payable".equals(credit)) {
+
+	        if (ActOpt.getExpenseOptions()!= null) {
+	            for (String expense :ActOpt.getExpenseOptions()) {
+
+	                if (expense.equals(debit)) {
+	                    transactionType = "Expense";
+
+	                    actTitleCB.getItems().clear();
+	                    actTitleCB.getItems().addAll(ActOpt.getExpenseOptions());
+	                    actTitleCB.setValue(debit);
+
+	                    paidbylabel.setVisible(true);
+	                    paidbylabel.setManaged(true);
+
+	                    paidby.setVisible(true);
+	                    paidby.setManaged(true);
+
+	                    paidby.getItems().clear();
+	                    paidby.getItems().addAll(ActOpt.getPaymentOptions());
+
+	                    if ("Cash".equals(credit)) {
+	                        paidby.setValue("Cash");
+	                    } else {
+	                        paidby.setValue("On Account");
+	                    }
+
+	                    back.setVisible(true);
+	                    back.setManaged(true);
+
+	                    return;
+	                }
+	            }
+	        }
+	    }
+		
+		if ("Cash".equals(credit) || "Accounts Payable".equals(credit)) {
+	        for (String purchase : ActOpt.getPurchaseOptions()) {
+	            if (purchase.equals(debit)) {
+	                transactionType = "Purchase";
+
+	                actTitleCB.getItems().clear();
+	                actTitleCB.getItems().addAll(ActOpt.getPurchaseOptions());
+	                actTitleCB.setValue(debit);
+
+	                paidbylabel.setVisible(true);
+	                paidbylabel.setManaged(true);
+
+	                paidby.setVisible(true);
+	                paidby.setManaged(true);
+	                paidby.getItems().clear();
+	                paidby.getItems().addAll(ActOpt.getPaymentOptions());
+
+	                if ("Cash".equals(credit)) {
+	                    paidby.setValue("Cash");
+	                } else {
+	                    paidby.setValue("On Account");
+	                }
+
+	                back.setVisible(true);
+	                back.setManaged(true);
+
+	                return;
+	            }
+	        }
+	    }
+		
+		if ("Drawings".equals(debit) && "Cash".equals(credit)) {
+	        transactionType = "Drawings";
+
+	        actTitleCB.getItems().clear();
+	        actTitleCB.getItems().add("Drawings");
+	        actTitleCB.setValue("Drawings");
+
+	        back.setVisible(true);
+	        back.setManaged(true);
+
+	        return;
+	    }
+		
+		if ("Cash".equals(debit) && "Accounts Receivable".equals(credit)) {
+	        transactionType = "Collect Accounts Receivable";
+
+	        actTitleCB.getItems().clear();
+	        actTitleCB.getItems().add("Collect Accounts Receivable");
+	        actTitleCB.setValue("Collect Accounts Receivable");
+
+	        back.setVisible(true);
+	        back.setManaged(true);
+
+	        return;
+	    }
+		
+		if ("Accounts Payable".equals(debit) && "Cash".equals(credit)) {
+	        transactionType = "Pay Accounts Payable";
+
+	        actTitleCB.getItems().clear();
+	        actTitleCB.getItems().add("Pay Accounts Payable");
+	        actTitleCB.setValue("Pay Accounts Payable");
+
+	        back.setVisible(true);
+	        back.setManaged(true);
+
+	        return;
+	    }
+
+		if ("Cash".equals(debit) && "Loan Payable".equals(credit)) {
+	        transactionType = "Borrow Money";
+
+	        actTitleCB.getItems().clear();
+	        actTitleCB.getItems().add("Borrow Money");
+	        actTitleCB.setValue("Borrow Money");
+
+	        back.setVisible(true);
+	        back.setManaged(true);
+	    }
+		
 	}
 	
 	@FXML
@@ -272,6 +474,8 @@ public class Controller {
 	}
 	
 	private void resetTransaction() {
+		
+		selectedEntry = null;
 		
 		dateTextField.clear();
 		amountTextField.clear();
