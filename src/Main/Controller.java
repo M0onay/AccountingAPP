@@ -91,7 +91,7 @@ public class Controller {
 	        }
 	        
 	        for(JournalEntry journalentry : journal.genEntries()) {
-	        	ledger.post(entry);
+	        	ledger.post(journalentry);
 	        }
 	        
 	        TableRow.clear();
@@ -121,6 +121,8 @@ public class Controller {
 	
 	@FXML
 	public void initialize() {
+		
+		journalTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		
 		actTitleCB.getItems().addAll(ActOpt.getMainOptions());		
 		
@@ -429,9 +431,8 @@ public class Controller {
 		
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		
-		Scene scene = new Scene(root);
+		stage.getScene().setRoot(root);
 		
-		stage.setScene(scene);
 		stage.show();
 		
 	}
@@ -445,9 +446,8 @@ public class Controller {
 		
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		
-		Scene scene = new Scene(root);
+		stage.getScene().setRoot(root);
 		
-		stage.setScene(scene);
 		stage.show();
 		
 	}

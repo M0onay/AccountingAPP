@@ -191,6 +191,8 @@ public class TBController{
 		trialBalanceContainer.getChildren().clear();
 
 		TableView<TrialBalanceRow> table = new TableView<>();
+		
+		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		TableColumn<TrialBalanceRow, String> accountColumn = new TableColumn<>("ACCOUNT TITLE");
 
@@ -291,9 +293,8 @@ public class TBController{
 			 
 			 Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 			 
-			 Scene scene = new Scene(root);
+			 stage.getScene().setRoot(root);
 			 
-			 stage.setScene(scene);
 			 stage.show();
 			 
 	}
@@ -307,9 +308,8 @@ public class TBController{
 		
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		
-		Scene scene = new Scene(root);
+		stage.getScene().setRoot(root);
 		
-		stage.setScene(scene);
 		stage.show();
 		
 	}

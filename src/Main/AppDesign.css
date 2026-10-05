@@ -1,0 +1,20 @@
+.root {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+}
+
+.label {
+    -fx-font-size: 14px;
+}
+
+.button {
+    -fx-pref-width: 127px;
+}
+
+.table-view {
+    -fx-font-size: 14px;
+}
+
+.table-column {
+    -fx-alignment: CENTER;
+}

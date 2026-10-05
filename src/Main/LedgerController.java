@@ -200,9 +200,8 @@ public class LedgerController {
 			 
 			 Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 			 
-			 Scene scene = new Scene(root);
+			 stage.getScene().setRoot(root);
 			 
-			 stage.setScene(scene);
 			 stage.show();
 			 
 	 }
@@ -216,9 +215,8 @@ public class LedgerController {
 			
 			Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 			
-			Scene scene = new Scene(root);
+			stage.getScene().setRoot(root);
 			
-			stage.setScene(scene);
 			stage.show();
 			
 		}
@@ -232,6 +230,7 @@ public class LedgerController {
 			 Label accountLabel = new Label(accountName);
 			 
 			 TableView<LedgerEntry> table = new TableView<>();
+			 table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 			 TableColumn<LedgerEntry, String> dateColumn = new TableColumn<>("DATE");
 			 TableColumn<LedgerEntry, Number> debitColumn = new TableColumn<>("DEBIT");
 			 TableColumn<LedgerEntry, Number> creditColumn = new TableColumn<>("CREDIT");
