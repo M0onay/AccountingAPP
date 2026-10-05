@@ -74,6 +74,14 @@ public class TBController{
     		journal.addEntry(entry);
     		ledger.post(entry);
     		
+    		back.setVisible(false);
+			back.setManaged(false);
+			
+			paidby.setVisible(false);
+			paidby.setManaged(false);
+			paidbylabel.setVisible(false);
+			paidbylabel.setManaged(false);
+    		
     		displayTrialBalance();
     		resetTransaction();
     		

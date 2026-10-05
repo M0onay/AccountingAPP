@@ -1,3 +1,5 @@
+//PUSSY
+
 package Main;
 
 import java.io.IOException;
@@ -38,6 +40,8 @@ public class Controller {
 	@FXML
 	private Label paidbylabel;
 	@FXML
+	private Label ErrorLabel;
+	@FXML
 	private TextField dateTextField;
 	@FXML
 	private TextField amountTextField;
@@ -70,7 +74,7 @@ public class Controller {
 
 	    String Pmethod = null;
 	    boolean paymentRequired = false;
-
+	    
 	    if (paidby.isVisible()) {
 	        paymentRequired = true;
 	        Pmethod = paidby.getValue();
@@ -91,22 +95,30 @@ public class Controller {
 	        }
 	        
 	        for(JournalEntry journalentry : journal.genEntries()) {
-	        	ledger.post(journalentry);
+	            ledger.post(journalentry);
 	        }
 	        
 	        TableRow.clear();
 	        
 	        for(JournalEntry journalentry : journal.genEntries()) {
-	        	TableRow.add(new TableRow(entry.getDate(), entry.getDebitAccount(), entry.getAmount(), 0, entry.getNote()));
-		        
-		        TableRow.add(new TableRow("", entry.getCreditAccount(), 0, entry.getAmount(),""));
+	        	TableRow.add(new TableRow(journalentry.getDate(), journalentry.getDebitAccount(), journalentry.getAmount(), 0, journalentry.getNote()));
+
+	        	TableRow.add(new TableRow("", journalentry.getCreditAccount(), 0, journalentry.getAmount(),""));
 	        }
+	        
+	        back.setVisible(false);
+			back.setManaged(false);
+			
+			paidby.setVisible(false);
+			paidby.setManaged(false);
+			paidbylabel.setVisible(false);
+			paidbylabel.setManaged(false);
 	        
 	        journalTable.refresh();
 	        resetTransaction();
 
 	    } catch(IllegalArgumentException ex) {
-	        System.out.println(ex.getMessage());
+	        showError(ex.getMessage());
 	    }
 	}
 	
@@ -494,6 +506,20 @@ public class Controller {
 		
 	}
 	
+	private void showError(String message) {
+
+	    ErrorLabel.setText(message);
+	    ErrorLabel.setVisible(true);
+	    ErrorLabel.setManaged(true);
+
+	}
 	
+	private void hideError() {
+
+	    ErrorLabel.setText("");
+	    ErrorLabel.setVisible(false);
+	    ErrorLabel.setManaged(false);
+
+	}
 	
 }

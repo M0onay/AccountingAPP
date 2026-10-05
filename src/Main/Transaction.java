@@ -16,10 +16,7 @@ public class Transaction {
 	public Transaction(String date, String transactionType, String accountTitle, String amount, String note, String paymentMethod, boolean paymentRequired) {
 		
 		if (!isValidDate(date)) {
-			throw new IllegalArgumentException("ILLEGAL DATE FORMAT");
-		}
-		if (!isValidAmount(amount)) {
-			throw new IllegalArgumentException("NUMBERS ONLY!");
+			throw new IllegalArgumentException("ILLEGAL DATE FORMAT!");
 		}
 		if(!isValidTransaction(accountTitle)) {
 			throw new IllegalArgumentException("PLEASE SELECT A TRANSACTION");
@@ -27,6 +24,9 @@ public class Transaction {
 		if (paymentRequired && !isValidPaymentMethod(paymentMethod)) {
 	        throw new IllegalArgumentException("PLEASE SELECT PAYMENT METHOD");
 	    }
+		if (!isValidAmount(amount)) {
+			throw new IllegalArgumentException("ILLEGAL NUMBER!");
+		}
 		
 		this.date = date;
 		this.transactionType = transactionType;

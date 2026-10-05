@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" stylesheets="@AppDesign.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.LedgerController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@AppDesign.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.LedgerController">
    <top>
       <Label text="LEDGER" BorderPane.alignment="CENTER" />
    </top>
    <center>
       <ScrollPane fx:id="PaneTable" fitToWidth="true" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="ledgerContainer" prefHeight="482.0" prefWidth="643.0" />
+            <VBox fx:id="ledgerContainer" spacing="10.0"/>
          </content>
       </ScrollPane>
    </center>
@@ -38,7 +38,7 @@
                   <TextField fx:id="noteTextField" promptText="OPTIONAL" />
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="257.0" prefWidth="355.0">
+            <VBox alignment="TOP_CENTER" prefHeight="257.0" prefWidth="355.0" spacing="10.0">
                <children>
                   <Button fx:id="AddButton" mnemonicParsing="false" onAction="#AddTransaction" prefWidth="127.0" text="ADD TRANSACTION" />
                   <Button fx:id="journalButton" mnemonicParsing="false" onAction="#openJournal" prefWidth="127.0" text="JOURNAL" />

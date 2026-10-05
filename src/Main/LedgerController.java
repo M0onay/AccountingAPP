@@ -58,6 +58,18 @@ public class LedgerController {
 		String Pmethod = null;
 		boolean paymentRequired = false;
 		
+		if(dateTextField.getText().isEmpty()) {
+	        dateTextField.setPromptText("Please enter a date");
+	        return;
+	    }
+	    if(amountTextField.getText().isEmpty()) {
+	        amountTextField.setPromptText("Please enter an amount");
+	        return;
+	    }
+	    if(actTitleCB.getValue() == null) {
+	        actTitleCB.setPromptText("Please select an account");
+	        return;
+	    }
 		if(paidby.isVisible()) {
 			paymentRequired = true;
 			Pmethod = paidby.getValue();
@@ -74,11 +86,19 @@ public class LedgerController {
 			
 			displayLedger();
 			
-			 	System.out.println("Transaction added from Ledger scene!");
-	            System.out.println("DATE: " + entry.getDate());
-	            System.out.println("DEBIT: " + entry.getDebitAccount());
-	            System.out.println("CREDIT: " + entry.getCreditAccount());
-	            System.out.println("AMOUNT: " + entry.getAmount());
+//			 	System.out.println("Transaction added from Ledger scene!");
+//	            System.out.println("DATE: " + entry.getDate());
+//	            System.out.println("DEBIT: " + entry.getDebitAccount());
+//	            System.out.println("CREDIT: " + entry.getCreditAccount());
+//	            System.out.println("AMOUNT: " + entry.getAmount());
+	            
+	            back.setVisible(false);
+				back.setManaged(false);
+				
+				paidby.setVisible(false);
+				paidby.setManaged(false);
+				paidbylabel.setVisible(false);
+				paidbylabel.setManaged(false);
 	            
 	            resetTransaction();
 			
