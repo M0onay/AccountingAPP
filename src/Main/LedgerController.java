@@ -52,6 +52,8 @@ public class LedgerController {
 	
 	public void AddTransaction (ActionEvent event) {
 		
+		hideError();
+		
 		String date = dateTextField.getText();
 		String amount = amountTextField.getText();
 		String note = noteTextField.getText();

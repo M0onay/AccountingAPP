@@ -136,6 +136,8 @@ public class Controller {
 	@FXML
 	public void initialize() {
 		
+		hideError();
+		
 		journalTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		
 		actTitleCB.getItems().addAll(ActOpt.getMainOptions());		
