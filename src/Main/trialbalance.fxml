@@ -21,13 +21,18 @@
       <Label text="TRIAL BALANCE" BorderPane.alignment="CENTER" />
    </top>
    <right>
-      <VBox prefHeight="408.0" prefWidth="355.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="408.0" prefWidth="355.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="TOP_CENTER" prefHeight="0.0" prefWidth="355.0">
                <children>
                   <Label text="ACCOUNTING" />
                </children>
             </HBox>
+            <VBox alignment="TOP_CENTER" prefHeight="0.0" prefWidth="355.0">
+               <children>
+                  <Label managed="false" text="Label" visible="false" />
+               </children>
+            </VBox>
             <Label text="DATE" />
             <TextField fx:id="dateTextField" promptText="mm/dd/yyyy" />
             <Label text="ACCOUNT TITLE" />
@@ -39,7 +44,7 @@
             <TextField fx:id="amountTextField" />
             <Label text="NOTE" />
             <TextField fx:id="noteTextField" promptText="OPTIONAL" />
-            <VBox alignment="TOP_CENTER" spacing="10.0" prefHeight="249.0" prefWidth="355.0">
+            <VBox alignment="TOP_CENTER" prefHeight="249.0" prefWidth="355.0" spacing="10.0">
                <children>
                   <Button fx:id="AddButton" mnemonicParsing="false" onAction="#AddTransaction" prefWidth="127.0" text="ADD TRANSACTION" />
                   <Button fx:id="journalButton" mnemonicParsing="false" onAction="#openJournal" prefWidth="127.0" text="JOURNAL" />

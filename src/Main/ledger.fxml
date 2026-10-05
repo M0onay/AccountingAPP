@@ -15,14 +15,19 @@
    <center>
       <ScrollPane fx:id="PaneTable" fitToWidth="true" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="ledgerContainer" spacing="10.0"/>
+            <VBox fx:id="ledgerContainer" spacing="10.0" />
          </content>
       </ScrollPane>
    </center>
    <right>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="355.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="355.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
             <Label alignment="TOP_CENTER" text="ACCOUNTING" />
+            <VBox alignment="TOP_CENTER" prefHeight="22.0" prefWidth="355.0">
+               <children>
+                  <Label fx:id="ErrorLabel" managed="false" text="" visible="false" />
+               </children>
+            </VBox>
             <VBox prefHeight="211.0" prefWidth="355.0">
                <children>
                   <Label text="DATE" />

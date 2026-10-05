@@ -37,6 +37,8 @@ public class LedgerController {
 	@FXML
 	private Label paidbylabel;
 	@FXML
+	private Label ErrorLabel;
+	@FXML
 	private TextField dateTextField;
 	@FXML
 	private TextField amountTextField;
@@ -58,18 +60,7 @@ public class LedgerController {
 		String Pmethod = null;
 		boolean paymentRequired = false;
 		
-		if(dateTextField.getText().isEmpty()) {
-	        dateTextField.setPromptText("Please enter a date");
-	        return;
-	    }
-	    if(amountTextField.getText().isEmpty()) {
-	        amountTextField.setPromptText("Please enter an amount");
-	        return;
-	    }
-	    if(actTitleCB.getValue() == null) {
-	        actTitleCB.setPromptText("Please select an account");
-	        return;
-	    }
+		
 		if(paidby.isVisible()) {
 			paymentRequired = true;
 			Pmethod = paidby.getValue();
@@ -103,7 +94,7 @@ public class LedgerController {
 	            resetTransaction();
 			
 		} catch(IllegalArgumentException ex) {
-		    ex.printStackTrace();
+				showError(ex.getMessage());
 		}
 		
 	}
@@ -268,11 +259,28 @@ public class LedgerController {
 			 
 			 table.getItems().addAll(ledger.getAccounts().get(accountName));
 			 
+			 double totalDebit = 0;
+			 double totalCredit = 0;
+			 
+			 for(LedgerEntry entry : ledger.getAccounts().get(accountName)) {
+				 totalDebit += entry.getDebit();
+				 totalCredit += entry.getCredit();
+			 }
+			 
+			 Label totalLabel = new Label(
+					 String.format(
+							 "TOTAL DEBIT: ₱%,.2f    TOTAL CREDIT: ₱%,.2f",
+							 totalDebit,
+							 totalCredit
+					 )
+			 );
+			 
 			 table.setPrefHeight(150);
 			 table.setPrefWidth(600);
 			 
 			 ledgerContainer.getChildren().add(accountLabel);
 			 ledgerContainer.getChildren().add(table);
+			 ledgerContainer.getChildren().add(totalLabel);
 			 
 		 }
 		 
@@ -292,7 +300,9 @@ public class LedgerController {
 			paidby.setValue(null);
 			
 			paidby.setVisible(false);
+			paidby.setManaged(false);
 			paidbylabel.setVisible(false);
+			paidbylabel.setManaged(false);
 			
 			back.setVisible(false);
 			back.setManaged(false);
@@ -314,8 +324,26 @@ public class LedgerController {
 			paidby.setValue(null);
 			
 			paidby.setVisible(false);
+			paidby.setManaged(false);
 			paidbylabel.setVisible(false);
+			paidbylabel.setManaged(false);
 			
+		}
+	 
+	 	private void showError(String message) {
+
+		    ErrorLabel.setText(message);
+		    ErrorLabel.setVisible(true);
+		    ErrorLabel.setManaged(true);
+
+		}
+		
+		private void hideError() {
+
+		    ErrorLabel.setText("");
+		    ErrorLabel.setVisible(false);
+		    ErrorLabel.setManaged(false);
+
 		}
 	
 }

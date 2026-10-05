@@ -87,13 +87,15 @@ public class Controller {
 	        JournalEntry entry = Journalizing.journalize(transaction);
 	        
 	        if(selectedEntry == null) {
-	        	journal.addEntry(entry);
+	            journal.addEntry(entry);
 	        }else {
-	        	journal.removeEntry(selectedEntry);
-	        	journal.addEntry(entry);
-	        	selectedEntry = null;
+	            journal.removeEntry(selectedEntry);
+	            journal.addEntry(entry);
+	            selectedEntry = null;
 	        }
-	        
+
+	        ledger.clear();
+
 	        for(JournalEntry journalentry : journal.genEntries()) {
 	            ledger.post(journalentry);
 	        }

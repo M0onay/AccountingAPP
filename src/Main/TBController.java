@@ -27,6 +27,8 @@ public class TBController{
 	@FXML
 	private Label paidbylabel;
 	@FXML
+	private Label ErrorLabel;
+	@FXML
 	private Button AddButton;
     @FXML
     private Button journalButton;
@@ -86,7 +88,7 @@ public class TBController{
     		resetTransaction();
     		
     	} catch(IllegalArgumentException ex) {
-    		System.out.println(ex.getMessage());
+    		showError(ex.getMessage());
     	}
     	
     }
@@ -320,6 +322,22 @@ public class TBController{
 		
 		stage.show();
 		
+	}
+	
+	private void showError(String message) {
+
+	    ErrorLabel.setText(message);
+	    ErrorLabel.setVisible(true);
+	    ErrorLabel.setManaged(true);
+
+	}
+	
+	private void hideError() {
+
+	    ErrorLabel.setText("");
+	    ErrorLabel.setVisible(false);
+	    ErrorLabel.setManaged(false);
+
 	}
 
 }
